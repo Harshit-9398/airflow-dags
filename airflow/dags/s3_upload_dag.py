@@ -1,7 +1,6 @@
 from airflow import DAG
 from airflow.operators import DummyOperator, PythonOperator
 from datetime import datetime, timedelta
-import boto3
 
 s3_region = ''
 s3_endpoint_url = 'https://s3-rook-ceph.apps.ai.innerdata.ml'
@@ -11,14 +10,9 @@ s3_bucket = 'airflow-test-4795bf97-5595-4573-a28b-bd0e5bc897a0'
 
 # configure boto S3 connection
 def upload_to_s3():
-    s3 = boto3.client('s3',
-                    s3_region,
-                    endpoint_url = s3_endpoint_url,
-                    aws_access_key_id = s3_access_key_id,
-                    aws_secret_access_key = s3_secret_access_key)
-
     test_file = 'test_file.txt'
-    s3.upload_file(test_file, s3_bucket, test_file)
+    hook = airflow.hooks.S3_hook.S3Hook('airflow_test')
+    hook.load_file(test_file, s3_bucket)
 
 default_args = {
     'owner': 'Harry',
