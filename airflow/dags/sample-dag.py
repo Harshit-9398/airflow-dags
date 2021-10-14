@@ -42,7 +42,7 @@ with DAG(
     )
 
     t3 = BashOperator(
-        task_id='awakening',
+        task_id='after_sleep',
         depends_on_past=False,
-        bash_command='echo Awakened',
+        bash_command='echo After_sleep',
     )
