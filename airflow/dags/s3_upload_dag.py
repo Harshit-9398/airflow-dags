@@ -16,6 +16,12 @@ s3 = boto3.client('s3',
                     aws_access_key_id = s3_access_key_id,
                     aws_secret_access_key = s3_secret_access_key)
 
+s3_2 = boto3.resource('s3',
+                    s3_region,
+                    endpoint_url = s3_endpoint_url,
+                    aws_access_key_id = s3_access_key_id,
+                    aws_secret_access_key = s3_secret_access_key)
+
 local_dir = '/usr/local/airflow/dags/gitdags/airflow/dags/'
 test_file = 'test_file.txt'
 s3_dir = 'airflow_test'
@@ -25,7 +31,7 @@ def upload_to_s3():
     s3.upload_file(os.path.join(local_dir, test_file), s3_bucket, os.path.join(s3_dir, test_file))
 
 def download_from_s3():
-    s3.Bucket(s3_bucket).download_file(os.path.join(s3_dir, test_file), 'test_file.txt')
+    s3_2.Bucket(s3_bucket).download_file(os.path.join(s3_dir, test_file), 'test_file.txt')
 
 default_args = {
     'owner': 'Harry',
