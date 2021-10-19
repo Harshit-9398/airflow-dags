@@ -25,13 +25,14 @@ s3_2 = boto3.resource('s3',
 local_dir = '/usr/local/airflow/dags/gitdags/airflow/dags/'
 test_file = 'test_file.txt'
 s3_dir = 'airflow_test'
+new_file = 'new_file.txt'
 
 # configure boto S3 connection
 def upload_to_s3():    
     s3.upload_file(os.path.join(local_dir, test_file), s3_bucket, os.path.join(s3_dir, test_file))
 
 def download_from_s3():
-    s3_2.Bucket(s3_bucket).download_file(os.path.join(s3_dir, test_file), 'test_file.txt')
+    s3_2.Bucket(s3_bucket).download_file(os.path.join(s3_dir, test_file), os.path.join(local_dir, new_file))
 
 default_args = {
     'owner': 'Harry',
