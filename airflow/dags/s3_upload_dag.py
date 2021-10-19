@@ -47,4 +47,4 @@ with DAG('S3_upload_DAG', default_args=default_args, schedule_interval='@once') 
         python_callable=download_from_s3
     )
 
-    start_task >> upload_to_S3_task
+    start_task >> upload_to_S3_task >> retrieve_from_S3
